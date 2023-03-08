@@ -237,10 +237,10 @@ class PPO:
 if __name__ == '__main__':
     # training policy
     parameters = "simple-data_set_rescheduling"
-    path = "../data_set_rescheduling/"
+    path = "../data_set_rescheduling_new_small/"
     param = [parameters, "converge_cnt", "total_time", "no_op"]
     simple_results = pd.DataFrame(columns=param, dtype=int)
-    for cnt in range(1):
+    for cnt in range(5):
         parameters += str(cnt)
         for file_name in os.listdir(path):
             print(file_name + "========================")
@@ -249,8 +249,8 @@ if __name__ == '__main__':
             env = JobEnv(title, path)
             scale = env.job_num * env.machine_num
             model = PPO(env, memory_size=3, batch_size=1 * scale, clip_ep=0.2)
-            # simple_results.loc[title] = model.train(title, is_reschedule=True)
-            simple_results.loc[title] = model.train(title, is_reschedule=False)
+            simple_results.loc[title] = model.train(name, is_reschedule=True)
+            # simple_results.loc[title] = model.train(title, is_reschedule=False)
             # simple_results.loc[title] = model.test(name)
         simple_results.to_csv(parameters + "_result.csv")
         # print(parameters)
